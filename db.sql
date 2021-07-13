@@ -66,5 +66,6 @@ create table intended_purchases (
   cart_id bigint not null,
   sku_id bigint not null,
   count int not null,
-  constraint fk_cart_id foreign key (cart_id) references carts(id)
+  constraint fk_cart_id foreign key (cart_id) references carts(id),
+  constraint fk_sku_in_purchases foreign key (sku_id) references skus(id)
 );
