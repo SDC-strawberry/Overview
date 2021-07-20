@@ -50,6 +50,7 @@ create table skus (
 create table carts (
   id bigint auto_increment not null primary key,
   source varchar(64) -- the ip address the cart was stored by, in dotted decimal notation.
+<<<<<<< HEAD
 );
 
 create table related (
@@ -62,3 +63,6 @@ create table related (
 
 create index product_id_index on styles (productid);
 create index related_products on related(current_product_id);
+=======
+);
+>>>>>>> 358b9d452d7b106276e3db1276d41a64ec03d830
