@@ -1,4 +1,3 @@
-console.log('process.env.PGDATABASE', process.env.PG_DATABASE);
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -9,8 +8,14 @@ const pool = new Pool({
   port: process.env.PG_PORT
 });
 
-pool.query('select * from products where id=5;', (err, res) => {
-  console.log('Error: ', err);
-  console.log('Response: ', res);
-});
-pool.end()
+class Db {
+  testQuery() {
+    pool.query('select * from products where id=5;', (err, res) => {
+      console.log('Error: ', err);
+      console.log('Response: ', res);
+    });
+    pool.end();
+  }
+}
+
+module.exports = new Db;

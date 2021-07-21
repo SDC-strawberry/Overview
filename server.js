@@ -2,9 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const app = express()
 const port = 3000
-const db = require('./db/db.js')
+const Db = require('./db/db.js')
+
 
 app.get('/', (req, res) => {
+  Db.testQuery();
   res.send('Hello World');
 });
 
