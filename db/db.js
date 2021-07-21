@@ -14,7 +14,17 @@ class Db {
       console.log('Error: ', err);
       console.log('Response: ', res);
     });
-    pool.end();
+  }
+
+  getProducts(res, req, getProductsReplyCallback, page, count) {
+    let query = `select * from products
+      where id > ${(page - 1) * count}
+      limit ${count};`
+    pool.query(query, (err, data) => {
+      console.log('Error: ', err);
+      console.log('Response: ', data.rows);
+      getProductsReplyCallback(err, data.rows, res, req);
+    });
   }
 }
 
