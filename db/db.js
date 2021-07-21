@@ -21,8 +21,7 @@ class Db {
       where id > ${(page - 1) * count}
       limit ${count};`
     pool.query(query, (err, data) => {
-      console.log('Error: ', err);
-      console.log('Response: ', data.rows);
+      if (err) { console.log('Error: ', err); }
       getProductsReplyCallback(err, data.rows, res, req);
     });
   }
