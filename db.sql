@@ -50,7 +50,6 @@ create table skus (
 create table carts (
   id bigint auto_increment not null primary key,
   source varchar(64) -- the ip address the cart was stored by, in dotted decimal notation.
-<<<<<<< HEAD
 );
 
 create table related (
@@ -61,8 +60,23 @@ create table related (
   PRIMARY KEY(current_product_id, related_product_id)
 );
 
+CREATE TABLE reviews (
+  id BIGSERIAL PRIMARY KEY,
+  product_id BIGINT INDEX,
+  rating smallint,
+  date datetime,
+  summary VARCHAR(1024),
+  body TEXT,
+  recommend BOOLEAN,
+  reported BOOLEAN,
+  reviewer_name VARCHAR(1024),
+  reviewer_email VARCHAR(1024),
+  response BIGINT,
+  helpfulness INT,
+  FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
 create index product_id_index on styles (productid);
 create index related_products on related(current_product_id);
-=======
-);
->>>>>>> 358b9d452d7b106276e3db1276d41a64ec03d830
+CREATE INDEX sku_styles ON skus(style_id);
+CREATE INDEX photo_styles ON photos(styleid);
