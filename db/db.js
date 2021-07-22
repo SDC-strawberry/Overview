@@ -40,6 +40,25 @@ class Db {
       getProductByIdReplyCallback(err, data.rows, res, req);
     });
   }
+
+  getProductStylesById(res, req, getProductByIdReplyCallback, productId) {
+    let productQuery = `select * from products
+      where id = ${productId};`;
+    let styleQuery = `select * from styles
+      WHERE productid=${product_id};`;
+    let skuQuery = `SELECT * from skus
+       WHERE style_id=${style_id};`;
+    let photoQuery = `SELECT * FROM photos
+       WHERE style_id=${style_id};`;
+
+    pool.query(productQuery, (err, productData) => {
+      // Replace this with promisified calls;
+      // SKUs and Photos belong to each style, so the first query
+      // to products has to return first. Then, for each style, its
+      // skus and photos are retrieved, and added to that style object
+      // Only once all styles's sub-promises are resolved do we add the styles
+      // to the main product info and return it.
+    });
 }
 
 module.exports = new Db;
