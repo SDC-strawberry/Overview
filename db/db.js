@@ -9,23 +9,27 @@ const pool = new Pool({
 });
 
 class Db {
+  testJest() {
+    return 1;
+  };
+
+  closePool() {
+    pool.end();
+  }
+
   testQuery() {
     pool.query('select * from products where id=5;', (err, res) => {
       console.log('Error: ', err);
       console.log('Response: ', res);
     });
-  }
+  };
 
   getProducts(res, req, getProductsReplyCallback, page, count) {
-    console.log('page', page);
-    console.log('count', count);
     let minId = (parseInt(page) - 1) * parseInt(count);
-    console.log('minId: ', minId);
     let query = `select * from products
       where id > ${minId}
       order by id asc
       limit ${count};`
-    console.log('query: ', query);
     pool.query(query, (err, data) => {
       if (err) { console.log('Error: ', err); }
       getProductsReplyCallback(err, data.rows, res, req);
@@ -59,6 +63,7 @@ class Db {
       // Only once all styles's sub-promises are resolved do we add the styles
       // to the main product info and return it.
     });
+  }
 }
 
 module.exports = new Db;
