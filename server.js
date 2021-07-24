@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/promise', (req, res) => {
-  db.promisedGetProductById()
+  db.promisedGetProductById(1)
     .then((data) => {
       res.send(data[0])
     })
@@ -49,6 +49,14 @@ app.get('/products', (req, res) => {
 app.get('/products/:productId', (req, res) => {
   db.getProductById(res, req, generalReplyCallback, req.params.productId);
 });
+
+app.get('/products/:productId/styles', (req, res) => {
+  db.getProductStylesById(req.params.productId)
+    .then((fullProductStyles) => {
+      //console.log('After returning to server: ', fullProductStyles);
+      res.send(200);
+    })
+})
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
