@@ -17,6 +17,29 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
+app.get('/promise', (req, res) => {
+  db.promisedGetProductById()
+    .then((data) => {
+      res.send(data[0])
+    })
+    .catch((err) => {
+      res.send(500);
+      console.log('Error: ', err)}
+    );
+})
+
+app.get('/promiseStyles', (req, res) => {
+  db.promisedGetStyles(1)
+    .then((data) => {
+      res.send(data)
+      console.log('Promise reply: ', data)}
+    )
+    .catch((err) => {
+      res.send(500);
+      console.log('Error: ', err)}
+    );
+})
+
 app.get('/products', (req, res) => {
   let page = req.query.page;
   let count = req.query.count;

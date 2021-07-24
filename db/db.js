@@ -17,6 +17,49 @@ class Db {
     pool.end();
   }
 
+  promisedGetProductById() {
+    return new Promise((resolve, reject) => {
+      let query = `select * from products
+        where id = 1;`
+      pool.query(query, (err, data) => {
+        if (err) { reject(err); }
+        resolve(data.rows);
+      });
+    });
+  }
+
+  promisedGetStyles(productId) {
+    return new Promise((resolve, reject) => {
+      let query = `select * from styles
+        where productId = ${productId};`
+      pool.query(query, (err, data) => {
+        if (err) { reject(err); }
+        resolve(data.rows);
+      });
+    });
+  }
+
+  promisedGetPhotos(styleId) {
+    return new Promise((resolve, reject) => {
+      let query = `select * from photos
+        where styleId = ${styleId};`
+      pool.query(query, (err, data) => {
+        if (err) { reject(err); }
+        resolve(data.rows);
+      });
+    });
+  }
+  promisedGetSkus(styleId) {
+    return new Promise((resolve, reject) => {
+      let query = `select * from skus
+        where styleId = ${styletId};`
+      pool.query(query, (err, data) => {
+        if (err) { reject(err); }
+        resolve(data.rows);
+      });
+    });
+  }
+
   testQuery() {
     pool.query('select * from products where id=5;', (err, res) => {
       console.log('Error: ', err);
