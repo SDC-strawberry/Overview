@@ -30,4 +30,22 @@ describe('It gets the expected data from db calls', () => {
     }
     db.getProductById(null, null, unpacker, 100);
   })
+
+  test('Asking for a products related ids should retrieve them.', () => {
+    db.promisedGetRelated(1)
+      .then((data) => {
+        expect(data).toContain('2');
+        expect(data).toContain('3');
+        expect(data).toContain('8');
+        expect(data).toContain('7');
+        expect(data.length).toEqual(4);
+      });
+  });
+
+  test('Retrieving a products styles should get them.', () => {
+    db.promisedGetStyles(1)
+      .then((data) => {
+        expect(data.keys()).toContain("styles");
+      });
+  });
 });
