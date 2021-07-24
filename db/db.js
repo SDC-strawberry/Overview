@@ -52,7 +52,7 @@ class Db {
   promisedGetSkus(styleId) {
     return new Promise((resolve, reject) => {
       let query = `select * from skus
-        where styleId = ${styletId};`
+        where style_id = ${styleId};`
       pool.query(query, (err, data) => {
         if (err) { reject(err); }
         resolve(data.rows);
@@ -93,8 +93,21 @@ class Db {
     let styles = this.promisedGetStyles(productId);
     return Promise.all([product, styles])
       .then((values) => {
-        //console.log('After promise.all, values: ', values)
-        return values;
+        let product = values[0];
+        let styles = values[1];
+        let photoSearches = styles.map((style) => this.promisedGetPhotos(style.id));
+        let skuSearches = styles.map((style) => this.promisedGetSkus(style.id));
+        return Promise.all([Promise.all(photoSearches), Promise.all(skuSearches)])
+          .then((styleVals) => {
+            let photoArrays = styleVals[0];
+            let skuArrays = styleVals[1];
+            for (let i = 0; i < styles.length; i++) {
+              styles[i].photos = photoArrays[i];
+              styles[i].skus = skuArrays[i];
+            }
+            product.styles = styles;
+            return product;
+          })
       })
   }
 }

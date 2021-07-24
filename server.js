@@ -53,8 +53,8 @@ app.get('/products/:productId', (req, res) => {
 app.get('/products/:productId/styles', (req, res) => {
   db.getProductStylesById(req.params.productId)
     .then((fullProductStyles) => {
-      //console.log('After returning to server: ', fullProductStyles);
-      res.send(200);
+      console.log('After returning to server: ', fullProductStyles);
+      res.sendStatus(200);
     })
 })
 
