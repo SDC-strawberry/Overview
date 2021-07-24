@@ -23,7 +23,7 @@ class Db {
         where id = ${productId};`
       pool.query(query, (err, data) => {
         if (err) { reject(err); }
-        resolve(data.rows);
+        resolve(data.rows[0]);
       });
     });
   }
@@ -49,6 +49,7 @@ class Db {
       });
     });
   }
+
   promisedGetSkus(styleId) {
     return new Promise((resolve, reject) => {
       let query = `select * from skus
