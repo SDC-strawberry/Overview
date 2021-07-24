@@ -53,8 +53,14 @@ app.get('/products/:productId', (req, res) => {
 app.get('/products/:productId/styles', (req, res) => {
   db.getProductStylesById(req.params.productId)
     .then((fullProductStyles) => {
-      //console.log('After returning to server: ', fullProductStyles);
       res.send(fullProductStyles);
+    })
+})
+
+app.get('/products/:productId/related', (req, res) => {
+  db.promisedGetRelated(req.params.productId)
+    .then((relatedProductIds) => {
+      res.send(relatedProductIds);
     })
 })
 

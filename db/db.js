@@ -61,6 +61,18 @@ class Db {
     });
   }
 
+  promisedGetRelated(productId) {
+    return new Promise((resolve, reject) => {
+      let query = `select * from related
+        where current_product_id = ${productId};`
+      pool.query(query, (err, data) => {
+        if (err) { reject(err); }
+        let ids = data.rows.map((row) => {return row.related_product_id});
+        resolve(ids);
+      });
+    });
+  }
+
   testQuery() {
     pool.query('select * from products where id=5;', (err, res) => {
       console.log('Error: ', err);
