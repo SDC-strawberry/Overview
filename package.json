@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "jest",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "k6": "k6 run k6tests/test.js"
   },
   "repository": {
     "type": "git",

@@ -49,3 +49,7 @@ describe('It gets the expected data from db calls', () => {
       });
   });
 });
+
+describe('Test subqueries', () => {
+
+});

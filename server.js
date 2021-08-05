@@ -13,7 +13,6 @@ const generalReplyCallback = function(err, data, res, req) {
 }
 
 app.get('/', (req, res) => {
-  db.testQuery();
   res.send('Hello World');
 });
 

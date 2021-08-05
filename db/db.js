@@ -73,13 +73,6 @@ class Db {
     });
   }
 
-  testQuery() {
-    pool.query('select * from products where id=5;', (err, res) => {
-      console.log('Error: ', err);
-      console.log('Response: ', res);
-    });
-  };
-
   getProducts(res, req, getProductsReplyCallback, page, count) {
     let minId = (parseInt(page) - 1) * parseInt(count);
     let query = `select * from products
