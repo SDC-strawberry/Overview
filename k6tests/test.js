@@ -7,11 +7,9 @@ export let options = {
     {duration: '1m30s', target: 10 },
     {duration: '20s', target: 0 },
   ],
-  //vus: 10,
-  //duration: '30s',
 };
 
 export default function() {
-  http.get('https://test.k6.io');
-  sleep(1);
+  var url = 'http://localhost:3000/products/1';
+  http.get(url);
 }
