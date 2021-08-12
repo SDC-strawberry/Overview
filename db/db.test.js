@@ -45,11 +45,7 @@ describe('It gets the expected data from db calls', () => {
   test('Retrieving a products styles should get them.', () => {
     db.promisedGetStyles(1)
       .then((data) => {
-        expect(data.keys()).toContain("styles");
+        expect(data[1].name).toBe("Desert Brown & Tan");
       });
   });
-});
-
-describe('Test subqueries', () => {
-
 });
