@@ -48,4 +48,15 @@ describe('It gets the expected data from db calls', () => {
         expect(data[1].name).toBe("Desert Brown & Tan");
       });
   });
+
+  test('Retrieving a products styles should get them. (Promised version)', () => {
+    console.log('Running test.')
+    db.getProductStylesById(1)
+      .then((data) => {
+        console.log('Data: ', data);
+        expect(1).toBe(1);
+        //expect(data[1].name).toBe("Desert Brown & Tan");
+      });
+    console.log('Test promise.');
+  })
 });
