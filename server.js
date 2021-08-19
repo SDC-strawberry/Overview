@@ -54,14 +54,18 @@ app.get('/products/:productId/styles', (req, res) => {
     .then((fullProductStyles) => {
       res.send(fullProductStyles);
     })
-})
+});
 
 app.get('/products/:productId/related', (req, res) => {
   db.promisedGetRelated(req.params.productId)
     .then((relatedProductIds) => {
       res.send(relatedProductIds);
     })
-})
+});
+
+app.get('/loaderio-f262d7549bf1ab119318663d9b56e30d.txt', (req, res) => {
+  res.send('loaderio-f262d7549bf1ab119318663d9b56e30d');
+});
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
