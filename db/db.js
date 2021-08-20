@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const { _ } = require('underscore');
 
 const pool = new Pool({
   user: process.env.PG_USER,
@@ -73,6 +74,42 @@ class Db {
     });
   }
 
+  getPhotosFor(productId) {
+    return new Promise((resolve, reject) => {
+      let query = `
+        select *
+        from photos
+        where styleid in
+        (
+          select id
+          from styles
+          where productId = ${productId}
+        );`
+        pool.query(query, (err, data) => {
+          if (err) { reject(err); }
+          resolve(data.rows);
+      });
+    });
+  }
+
+  getSkusFor(productId) {
+    return new Promise((resolve, reject) => {
+      let query = `
+        select *
+        from skus
+        where style_id in
+        (
+          select id
+          from styles
+          where productId = ${productId}
+        );`
+        pool.query(query, (err, data) => {
+          if (err) { reject(err); }
+          resolve(data.rows);
+      });
+    });
+  }
+
   getProducts(res, req, getProductsReplyCallback, page, count) {
     let minId = (parseInt(page) - 1) * parseInt(count);
     let query = `select * from products
@@ -97,24 +134,19 @@ class Db {
   getProductStylesById(productId) {
     let product = this.promisedGetProductById(productId);
     let styles = this.promisedGetStyles(productId);
-    return Promise.all([product, styles])
+    let skus = this.getPhotosFor(productId);
+    let photos = this.getSkusFor(productId);
+    return Promise.all([product, styles, skus, photos])
       .then((values) => {
         let product = values[0];
         let styles = values[1];
-        let photoSearches = styles.map((style) => this.promisedGetPhotos(style.id));
-        let skuSearches = styles.map((style) => this.promisedGetSkus(style.id));
-        return Promise.all([Promise.all(photoSearches), Promise.all(skuSearches)])
-          .then((styleVals) => {
-            let photoArrays = styleVals[0];
-            let skuArrays = styleVals[1];
-            for (let i = 0; i < styles.length; i++) {
-              styles[i].photos = photoArrays[i];
-              styles[i].skus = skuArrays[i];
-            }
-            product.styles = styles;
-            return product;
-          })
-      })
+        let skus = values[2];
+        let photos = values[3];
+        console.log('SKUs: ', skus);
+        //console.log('Photos: ', photos)
+        product.styles = styles;
+        return product;
+        })
   }
 }
 
