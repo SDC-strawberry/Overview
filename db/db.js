@@ -134,19 +134,23 @@ class Db {
   getProductStylesById(productId) {
     let product = this.promisedGetProductById(productId);
     let styles = this.promisedGetStyles(productId);
-    let skus = this.getPhotosFor(productId);
-    let photos = this.getSkusFor(productId);
+    let photos = this.getPhotosFor(productId);
+    let skus = this.getSkusFor(productId);
     return Promise.all([product, styles, skus, photos])
       .then((values) => {
         let product = values[0];
         let styles = values[1];
         let skus = values[2];
         let photos = values[3];
-        console.log('SKUs: ', skus);
-        //console.log('Photos: ', photos)
+        let style_skus = _.groupBy(skus, (sku) => sku.style_id);
+        let style_photos = _.groupBy(photos, (photo) => photo.styleid);
+        for (let style of styles) {
+          style.photos = style_photos[style.id];
+          style.skus = style_skus[style.id];
+        }
         product.styles = styles;
         return product;
-        })
+      })
   }
 }
 
